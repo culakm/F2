@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">F2</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragmenta">Hello blank fragment A</string>
+    <string name="hello_blank_fragmentb">Hello blank fragment B</string>
+    <string name="str_button">Klikni</string>
+    <string name="default_text">defaulttttt</string>
+</resources>
