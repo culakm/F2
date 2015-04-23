@@ -30,6 +30,7 @@ public class MainActivity extends FragmentActivity implements com.hellbilling.f2
             // Create a new Fragment to be placed in the activity layout
             FragmentA firstFragment = new FragmentA();
 
+            // ????
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             firstFragment.setArguments(getIntent().getExtras());
@@ -39,7 +40,6 @@ public class MainActivity extends FragmentActivity implements com.hellbilling.f2
                     .add(R.id.fragment_container, firstFragment).commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,24 +63,25 @@ public class MainActivity extends FragmentActivity implements com.hellbilling.f2
         return super.onOptionsItemSelected(item);
     }
 
-
+    // Metoda ktora je implementovana rozhranim com.hellbilling.f2.FragmentA.OnFragmentInteractionListener
     public void onButtonClick(String lala) {
 
-        Toast.makeText(getApplicationContext(), " MainActivity.java kliknute "+lala, Toast.LENGTH_SHORT).show();
-// Capture the article fragment from the activity layout
-        FragmentB articleFrag = (FragmentB)
-                getSupportFragmentManager().findFragmentById(R.id.fragmentb);
+        Toast.makeText(getApplicationContext(), "FragmentA  kliknute so stringom: "+lala, Toast.LENGTH_SHORT).show();
 
+        //Odchytime fragment fragmentb z activity layout
+        FragmentB articleFrag = (FragmentB) getSupportFragmentManager().findFragmentById(R.id.fragmentb);
+
+        // Ak existuje (zariadenie je land)
         if (articleFrag != null) {
             // If article frag is available, we're in two-pane layout...
 
-            // Call a method in the ArticleFragment to update its content
+            // Volame metodu vo FragmentB aby sme updatli obsah
             articleFrag.updateArticleView(lala);
 
         } else {
-            // If the frag is not available, we're in the one-pane layout and must swap frags...
+            // Nemame fragmentb (sme portretovy) musime fragmenty prepnut
 
-            // Create fragment and give it an argument for the selected article
+            // Vytvorime fragment a dame mu argument zmeneneho textu
             FragmentB newFragment = new FragmentB();
             Bundle args = new Bundle();
             args.putString(FragmentB.ARG_POSITION, lala);

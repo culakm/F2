@@ -16,30 +16,43 @@ import android.widget.Toast;
 import android.support.v4.app.Fragment;
 
 public class FragmentA extends Fragment {
+
     private OnFragmentInteractionListener mListener;
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     // Container Activity must implement this interface
+    // V aktivite je prepisana metoda onButtonClick
     public interface OnFragmentInteractionListener {
         public void onButtonClick(String lala);
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_a);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Layout je WebView
+        // Najdeme view fragmentu
         final View rootView = inflater.inflate(R.layout.fragment_a, container, false);
+        // Najdeme tlacitko
         Button button = (Button) rootView.findViewById(R.id.a_button_id);
+        // Definujeme metodu ktora sa vykona ked sa klikne na tlacitko
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // Najdeme text
                 final TextView wText=(TextView) rootView.findViewById(R.id.a_edit_text_id);
+                // Vyvolame
                 mListener.onButtonClick(wText.getText().toString());
             }
         });
@@ -53,6 +66,7 @@ public class FragmentA extends Fragment {
 
     }
 
+    // Deklarujeme rozhranie pre aktivitu
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -64,27 +78,10 @@ public class FragmentA extends Fragment {
         }
     }
 
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        public void onFragmentInteraction(Uri uri);
-//    }
-
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
 }
