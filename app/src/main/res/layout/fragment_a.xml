@@ -19,7 +19,7 @@
         android:layout_height="20pt"
         android:layout_below="@id/a_text_id"/>
     <Button
-        android:id="@+id/a_button_id"
+        android:id="@+id/a_button1_id"
         android:text="@string/str_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

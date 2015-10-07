@@ -1,19 +1,16 @@
 package com.hellbilling.f2;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 //import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 public class FragmentA extends Fragment {
 
@@ -46,14 +43,23 @@ public class FragmentA extends Fragment {
         // Najdeme view fragmentu
         final View rootView = inflater.inflate(R.layout.fragment_a, container, false);
         // Najdeme tlacitko
-        Button button = (Button) rootView.findViewById(R.id.a_button_id);
+        Button button = (Button) rootView.findViewById(R.id.a_button1_id);
         // Definujeme metodu ktora sa vykona ked sa klikne na tlacitko
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Najdeme text
                 final TextView wText=(TextView) rootView.findViewById(R.id.a_edit_text_id);
                 // Vyvolame
-                mListener.onButtonClick(wText.getText().toString());
+                String fragmetnAString =  wText.getText().toString();
+                Toast.makeText(getActivity().getApplicationContext(), "FragmentA  kliknute so stringom: " +fragmetnAString, Toast.LENGTH_SHORT).show();
+                // chybova hlaska, nemame text
+                if (fragmetnAString == null){
+                    fragmetnAString = "BOHUZIAL nemame fragmetnAString";
+                }
+                // volame onButtonClick tam kde je prepisana metoda onButtonClick
+                else {
+                    mListener.onButtonClick(fragmetnAString);
+                }
             }
         });
 

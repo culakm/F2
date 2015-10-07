@@ -24,22 +24,58 @@ public class MainActivity extends FragmentActivity implements com.hellbilling.f2
             // then we don't need to do anything and should return or else
             // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
+ //Toast.makeText(getApplicationContext(), "MainActivity: Mam predchadzajuci stav", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Create a new Fragment to be placed in the activity layout
             FragmentA firstFragment = new FragmentA();
-
+            Toast.makeText(getApplicationContext(), "MainActivity: startujem novy FragmentA", Toast.LENGTH_SHORT).show();
             // ????
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             firstFragment.setArguments(getIntent().getExtras());
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, firstFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
         }
     }
+
+    // Metoda ktora je implementovana rozhranim com.hellbilling.f2.FragmentA.OnFragmentInteractionListener
+    public void onButtonClick(String lala) {
+
+        //skusime ci odchytime fragment fragmentb z activity layout
+        FragmentB mc_fragment_b = (FragmentB) getSupportFragmentManager().findFragmentById(R.id.fragmentb);
+
+        // Ak existuje (zariadenie je land)
+        if (mc_fragment_b != null) {
+            // If article frag is available, we're in two-pane layout...
+
+            // Volame metodu vo FragmentB aby sme updatli obsah
+            mc_fragment_b.updateText(lala+"  landscape layoutu");
+
+        } else {
+            // Nemame fragmentb (sme portretovy) musime fragmenty prepnut
+//Toast.makeText(getApplicationContext(), "nemame fragment b:, vytvarame ho z main activity ", Toast.LENGTH_SHORT).show();
+            // Vytvorime fragment a dame mu argument zmeneneho textu
+            FragmentB newFragment = new FragmentB();
+            Bundle args = new Bundle();
+            // nastavime argument fragmentu
+            args.putString(FragmentB.ARG_TEXT, lala);
+            newFragment.setArguments(args);
+            // Zacneme fragmentovu transakciu
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragment_container, newFragment);
+            transaction.addToBackStack(null);
+
+            // Commit the transaction
+            transaction.commit();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,40 +97,5 @@ public class MainActivity extends FragmentActivity implements com.hellbilling.f2
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    // Metoda ktora je implementovana rozhranim com.hellbilling.f2.FragmentA.OnFragmentInteractionListener
-    public void onButtonClick(String lala) {
-
-        Toast.makeText(getApplicationContext(), "FragmentA  kliknute so stringom: "+lala, Toast.LENGTH_SHORT).show();
-
-        //Odchytime fragment fragmentb z activity layout
-        FragmentB articleFrag = (FragmentB) getSupportFragmentManager().findFragmentById(R.id.fragmentb);
-
-        // Ak existuje (zariadenie je land)
-        if (articleFrag != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Volame metodu vo FragmentB aby sme updatli obsah
-            articleFrag.updateArticleView(lala);
-
-        } else {
-            // Nemame fragmentb (sme portretovy) musime fragmenty prepnut
-
-            // Vytvorime fragment a dame mu argument zmeneneho textu
-            FragmentB newFragment = new FragmentB();
-            Bundle args = new Bundle();
-            args.putString(FragmentB.ARG_POSITION, lala);
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-        }
     }
 }
